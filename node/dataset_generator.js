@@ -26,26 +26,38 @@ const generateImageFile = (outFile, paths) => {
 };
 
 fileNames.forEach((fn) => {
-    const content = fs.readFileSync(`${constants.RAW_DIR}/${fn}`);
-    const { session, student, drawings } = JSON.parse(content);
-    for (let label in drawings) {
-        samples.push({
-            id,
-            label,
-            student_name: student,
-            student_id: session,
-        });
+    // Skip files that start with a dot (e.g., .DS_Store)
+    if (fn.startsWith(".")) {
+        console.log(`Skipping file: ${fn}`);
+        return;
+    }
 
-        const paths = drawings[label];
+    const filePath = `${constants.RAW_DIR}/${fn}`;
+    try {
+        const content = fs.readFileSync(filePath);
+        const { session, student, drawings } = JSON.parse(content);
+        for (let label in drawings) {
+            samples.push({
+                id,
+                label,
+                student_name: student,
+                student_id: session,
+            });
 
-        fs.writeFileSync(
-            `${constants.JSON_DIR}/${id}.json`,
-            JSON.stringify(paths)
-        );
+            const paths = drawings[label];
 
-        generateImageFile(`${constants.IMG_DIR}/${id}.png`, paths);
+            fs.writeFileSync(
+                `${constants.JSON_DIR}/${id}.json`,
+                JSON.stringify(paths)
+            );
 
-        id++;
+            generateImageFile(`${constants.IMG_DIR}/${id}.png`, paths);
+
+            id++;
+        }
+    } catch (error) {
+        console.error(`Error parsing JSON in file: ${filePath}`);
+        console.error(error);
     }
 });
 
