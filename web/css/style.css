@@ -16,3 +16,24 @@ canvas {
     background-color: white;
     box-shadow: 0px 0px 10px 2px black;
 }
+
+button {
+    background-color: navy;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    height: 22px;
+    padding: 2px 10px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: mediumblue;
+}
+
+button:disabled,
+button:disabled:hover {
+    background-color: grey;
+    cursor: default;
+}
