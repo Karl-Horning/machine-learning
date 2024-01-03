@@ -130,3 +130,4 @@ dist
 .data/dataset/img/*
 .data/dataset/json/*
 .data/raw/#
+.data/dataset/samples.json
