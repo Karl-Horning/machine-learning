@@ -1,0 +1,18 @@
+body {
+    background-color: skyblue;
+    font-family: Arial, Helvetica, sans-serif;
+    overscroll-behavior: none;
+}
+
+#content {
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+canvas {
+    background-color: white;
+    box-shadow: 0px 0px 10px 2px black;
+}
