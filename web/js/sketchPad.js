@@ -5,11 +5,24 @@ class SketchPad {
         this.canvas.height = size;
         container.appendChild(this.canvas);
 
+        const lineBreak = document.createElement("br");
+        container.appendChild(lineBreak);
+
+        this.undoBtn = document.createElement("button");
+        this.undoBtn.innerHTML = "Undo";
+        container.appendChild(this.undoBtn);
+
         this.ctx = this.canvas.getContext("2d");
 
+        this.reset();
+
+        this.#addEventListeners();
+    }
+
+    reset() {
         this.paths = [];
         this.isDrawing = false;
-        this.#addEventListeners();
+        this.#redraw();
     }
 
     #addEventListeners() {
@@ -28,7 +41,7 @@ class SketchPad {
             }
         };
 
-        this.canvas.onmouseup = () => {
+        document.onmouseup = () => {
             this.isDrawing = false;
         };
 
@@ -42,14 +55,24 @@ class SketchPad {
             this.canvas.onmousemove(loc);
         };
 
-        this.canvas.ontouchend = (e) => {
-            this.canvas.onmouseup();
+        document.ontouchend = (e) => {
+            document.onmouseup();
+        };
+
+        this.undoBtn.onclick = () => {
+            this.paths.pop();
+            this.#redraw();
         };
     }
 
     #redraw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         draw.paths(this.ctx, this.paths);
+        if (this.paths.length > 0) {
+            this.undoBtn.disabled = false;
+        } else {
+            this.undoBtn.disabled = true;
+        }
     }
 
     #getMouse = (e) => {
