@@ -23,7 +23,9 @@ fileNames
     .filter((fn) => fn.endsWith(".json"))
     .forEach((fn) => {
         const filePath = `${constants.RAW_DIR}/${fn}`;
-        const numOfFiles = fileNames.filter((fn) => fn.endsWith(".json")).length;
+        const numOfFiles = fileNames.filter((fn) =>
+            fn.endsWith(".json")
+        ).length;
         try {
             const content = fs.readFileSync(filePath);
             const { session, student, drawings } = JSON.parse(content);
@@ -55,3 +57,7 @@ fileNames
     });
 
 fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
+fs.writeFileSync(
+    constants.SAMPLES_JS,
+    `const samples = ${JSON.stringify(samples)};`
+);
