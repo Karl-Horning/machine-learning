@@ -23,6 +23,7 @@ fileNames
     .filter((fn) => fn.endsWith(".json"))
     .forEach((fn) => {
         const filePath = `${constants.RAW_DIR}/${fn}`;
+        const numOfFiles = fileNames.filter((fn) => fn.endsWith(".json")).length;
         try {
             const content = fs.readFileSync(filePath);
             const { session, student, drawings } = JSON.parse(content);
@@ -43,7 +44,7 @@ fileNames
 
                 generateImageFile(`${constants.IMG_DIR}/${id}.png`, paths);
 
-                utils.printProgress(id, fileNames.length * 8);
+                utils.printProgress(id, numOfFiles * 8);
 
                 id++;
             }
